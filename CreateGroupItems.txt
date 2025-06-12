@@ -1,0 +1,44 @@
+const responseData = pm.response.json();
+const responseTime = 1500;
+
+pm.test("Response status code must be 201", function () {
+    pm.response.to.have.status(201);
+});
+
+pm.test("Response time is less than 1.5 seconds", function () {
+  pm.expect(pm.response.responseTime).to.be.below(responseTime);
+});
+
+pm.test("Response must be object", () => {
+    pm.expect(responseData).to.be.an('object');
+});
+
+pm.test("Response id must be number", () => {
+    const { id } = responseData;
+    pm.expect(id).to.be.an('number');
+});
+
+pm.test("Response title must be string", () => {
+    const { title } = responseData;
+    pm.expect(title).to.be.an('string');
+});
+
+pm.test("Response origin must be string", () => {
+    const { origin } = responseData;
+    pm.expect(origin).to.be.an('string');
+});
+
+pm.test("Response create and update must be string", () => {
+    const { created_at, updated_at } = responseData;
+    pm.expect(created_at).to.be.an('string');
+    pm.expect(updated_at).to.be.an('string');
+});
+
+pm.test("Response owner must be number", () => {
+    const { owner } = responseData;
+    pm.expect(owner).to.be.an('number');
+});
+
+pm.test("Response must be have header content-type is application/json", () => {
+    pm.expect(pm.response.headers.get('Content-Type')).to.be.equal("application/json");
+});
